@@ -10,11 +10,11 @@
         :root {
             --dark-blue: #000066; 
             --nist-detect: #e1f5fe;
-            --nist-analyze: #b3e5fc; /* Tom levemente diferente para análise */
+            --nist-analyze: #b3e5fc; 
             --nist-contain: #fff9c4;
-            --nist-eradicate: #808000;
+            --nist-eradicate: #FF3333;
             --nist-recover: #0055aa;
-            --nist-post: #008000;
+            --nist-post: #0055aa;
             --red-alert: #cc0000;
             --orange-alert: #ff8c00;
             --gray-panel: #00001f;
@@ -76,6 +76,23 @@
         .info-section { margin-bottom: 25px; }
         .info-section h3 { border-left: 5px solid var(--dark-blue); padding-left: 10px; margin-bottom: 12px; color: #333; font-weight: 700; }
 
+        /* Estilo para ferramentas de mitigação */
+        .mitigation-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .tool-badge {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: #555;
+        }
+
         .steps-guide { background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #eee; }
         .steps-guide dt { font-weight: 700; color: #222; margin-top: 12px; }
         .steps-guide dd { margin-bottom: 8px; margin-left: 20px; font-size: 0.95em; line-height: 1.5; color: #444; }
@@ -83,9 +100,9 @@
         .nav-bar { background-color: var(--gray-panel); display: flex; padding: 10px; gap: 5px; justify-content: center; border-top: 2px solid #00001f; }
         .nav-btn { flex: 1; max-width: 160px; padding: 12px 2px; border: 2px solid #00001f; font-weight: 700; cursor: pointer; text-align: center; font-size: 10px; font-family: 'Roboto', sans-serif; transition: 0.3s; }
         
-        .c-deteccao { background-color: #03a9f4; color: white; }
-        .c-analise { background-color: #0288d1; color: white; }
-        .c-contencao { background-color: #fdd835; color: black; }
+        .c-deteccao { background-color: #FF8000; color: white; }
+        .c-analise { background-color: #FF8000; color: white; }
+        .c-contencao { background-color: #FF3333; color: rgb(255, 255, 255); }
         .c-erradicacao { background-color: var(--nist-eradicate); color: white; }
         .c-recuperacao { background-color: var(--nist-recover); color: white; }
         .c-pos { background-color: var(--nist-post); color: white; }
@@ -115,83 +132,177 @@
 
         <div id="principal" class="content-card active">
             <h2 style="text-align: center;">FLUXOGRAMA GERAL</h2>
-            <div class="img-container"><img src="geral.jpg"></div>
+            <div class="img-container"><img src="fluxogramageral.jpg"></div>
+            <div class="info-section">
+                <h3></h3>
+                <p>Selecione uma das fases abaixo na barra de navegação para ver as instruções detalhadas.</p>
+            </div>
         </div>
 
         <div id="fase_det" class="content-card">
-            <h2 style="color: #03a9f4">FASE 2.1: DETECÇÃO</h2>
+            <h2 style="color: #FF8000">DETECÇÃO</h2>
             <div class="img-container"><img src="deteccao.jpg"></div>
+            
+            <div class="info-section">
+                <h3>Ferramentas de Detecção</h3>
+                <div class="mitigation-tools">
+                    <span class="tool-badge">SIEM (Splunk/QRadar)</span>
+                    <span class="tool-badge">DLP (Symantec/Forcepoint)</span>
+                    <span class="tool-badge">IDS/IPS</span>
+                    <span class="tool-badge">UEBA (Análise de Comportamento)</span>
+                </div>
+            </div>
+
             <button class="btn-details" onclick="toggleDetails('det_text')">ORIENTAÇÕES DA DETECÇÃO ↓</button>
             <div id="det_text" class="extra-info">
                 <div class="info-section">
                     <h3>Identificação do Incidente</h3>
+                    <h4>O objetivo é confirmar a ocorrência e coletar os primeiros sinais de comprometimento (IoCs)</h4>
                     <dl class="steps-guide">
                         <dt>Sinais de Alerta</dt>
-                        <dd>Exfiltração de dados detectada pelo SIEM ou alertas de acesso anômalo em bancos de dados.</dd>
+                        <dd>Verificar se o alerta partiu do SIEM (Exfiltração), EDR (Acesso anômalo) ou reporte direto de usuário. Validar se não se trata de um falso positivo.</dd>
+                        <dt>Coleta de Evidências Voláteis</dt>
+                        <dd>Antes de qualquer alteração no sistema, capturar logs de tráfego de rede e hashes de arquivos suspeitos para garantir a integridade da prova</dd>
+                        <dt>Validação</dt>
+                        <dd>Correlacionar alertas de DLP com logs de acesso ao banco de dados ou sistemas de arquivos.</dd>
                     </dl>
                 </div>
             </div>
         </div>
 
         <div id="fase_ana" class="content-card">
-            <h2 style="color: #0288d1">FASE 2.2: ANÁLISE</h2>
+            <h2 style="color: #FF8000">ANÁLISE</h2>
             <div class="img-container"><img src="analise.jpg"></div>
+            
+            <div class="info-section">
+                <h3>Ferramentas de Análise</h3>
+                <div class="mitigation-tools">
+                    <span class="tool-badge">Wireshark (PCAP)</span>
+                    <span class="tool-badge">Forensics Tools (FTK/EnCase)</span>
+                    <span class="tool-badge">Log Aggregators</span>
+                </div>
+            </div>
+
             <button class="btn-details" onclick="toggleDetails('ana_text')">ORIENTAÇÕES DA ANÁLISE ↓</button>
-            <div id="det_text" class="extra-info">
+            <div id="ana_text" class="extra-info">
                 <div class="info-section">
                     <h3>Triagem e Escopo</h3>
                     <dl class="steps-guide">
                         <dt>Decisão LGPD <span class="badge bg-alto">Crítico</span></dt>
-                        <dd>Determinar se há Dados Pessoais envolvidos para acionar o DPO.</dd>
+                        <dt>Determinação do Vetor e Extensão</dt>
+                        <dd>Analisar como o atacante entrou (ex: Credencial roubada, SQL Injection) e quantos registros/arquivos foram acessados ou exportados.</dd>
+                        <dt>Impacto</dt>
+                        <dd>Determinar o volume de dados comprometidos e a criticidade para o negócio.</dd>
+                        <dt>Classificar os dados comprometidos.</dt>
+                        <dd>Se houver Dados Pessoais ou Sensíveis, o DPO deve ser notificado imediatamente para cumprir o prazo legal de 48h junto à ANPD</dd>
                     </dl>
                 </div>
             </div>
         </div>
 
         <div id="fase3" class="content-card">
-            <h2 style="color: #fbc02d">FASE 3: CONTENÇÃO</h2>
+            <h2 style="color: #FF3333"> CONTENÇÃO</h2>
             <div class="img-container"><img src="contencao.jpg"></div>
+            
+            <div class="info-section">
+                <h3>Ferramentas de Contenção</h3>
+                <div class="mitigation-tools">
+                    <span class="tool-badge">EDR (CrowdStrike/SentinelOne)</span>
+                    <span class="tool-badge">Azure AD / Okta (Revogar Sessions)</span>
+                    <span class="tool-badge">Cisco Umbrella / Proxy</span>
+                </div>
+            </div>
+
             <button class="btn-details" onclick="toggleDetails('det3')">ORIENTAÇÕES TÉCNICAS ↓</button>
             <div id="det3" class="extra-info">
                 <div class="info-section">
                     <h3>Interrupção do Vazamento</h3>
-                    <p>Foco em bloquear o canal de exfiltração e revogar credenciais comprometidas.</p>
+                    <p>O objetivo é "estancar o sangramento" da informação</p>
+                    <dl class="steps-guide">
+                        <dt>Ação Imediata:</dt>
+                        <dt>Ações de Contenção</dt>
+                        <dd>Bloquear IPs de destino, isolar o servidor comprometido ou revogar chaves de acesso que permitiram a extração.</dd>
+                        <dd>Isolar hosts comprometidos da rede via EDR para cessar a exfiltração.</dd>
+                        <dt>Bloqueio de Identidade</dt>
+                        <dd>Revogar Refresh Tokens e resetar senhas de contas envolvidas no comprometimento.</dd>
+                    </dl>
                 </div>
             </div>
         </div>
 
         <div id="fase3b" class="content-card">
-            <h2 style="color: var(--nist-eradicate)">FASE 3.1: ERRADICAÇÃO</h2>
+            <h2 style="color: var(--nist-eradicate)"> ERRADICAÇÃO</h2>
             <div class="img-container"><img src="erradicacao.jpg"></div>
+
+            <div class="info-section">
+                <h3>Ferramentas de Erradicação</h3>
+                <div class="mitigation-tools">
+                    <span class="tool-badge">Antivírus/Next-Gen AV</span>
+                    <span class="tool-badge">Vulnerability Scanners (Nessus)</span>
+                    <span class="tool-badge">Configuration Management</span>
+                </div>
+            </div>
+
             <button class="btn-details" onclick="toggleDetails('det3b')">ORIENTAÇÕES TÉCNICAS ↓</button>
             <div id="det3b" class="extra-info">
                 <div class="info-section">
                     <h3>Remediação Final</h3>
-                    <p>Correção da vulnerabilidade explorada e remoção de persistência (backdoors).</p>
+                    <dl class="steps-guide">
+                        <dt>Remoção de Malwares</dt>
+                        <dd>Executar varredura completa para eliminar webshells ou backdoors deixados pelo atacante.</dd>
+                        <dt>Remoção de Backdoors e Persistência</dt>
+                        <dd>Identificar e remover scripts maliciosos, tarefas agendadas ou contas de sistema criadas pelo atacante para garantir acesso futuro.</dd>
+                        <dt>Sanitização</dt>
+                        <dd>Aplicar patches de segurança ou desativar serviços vulneráveis que foram explorados (ex: fechar portas inseguras ou corrigir código vulnerável).</dd>
+                    </dl>
                 </div>
             </div>
         </div>
 
         <div id="fase4" class="content-card">
-            <h2 style="color: var(--nist-recover)">FASE 4: RECUPERAÇÃO</h2>
+            <h2 style="color: var(--nist-recover)">RECUPERAÇÃO</h2>
             <div class="img-container"><img src="recuperacao.jpg"></div>
+
+            <div class="info-section">
+                <h3>Ferramentas de Recuperação</h3>
+                <div class="mitigation-tools">
+                    <span class="tool-badge">Veeam/Backup Systems</span>
+                    <span class="tool-badge">Change Management (ITIL)</span>
+                    <span class="tool-badge">Monitoring (Zabbix/Prometheus)</span>
+                </div>
+            </div>
+
             <button class="btn-details" onclick="toggleDetails('det4')">ORIENTAÇÕES TÉCNICAS ↓</button>
             <div id="det4" class="extra-info">
                 <div class="info-section">
                     <h3>Conformidade e Retorno</h3>
-                    <p>Validação de integridade e notificações regulatórias (ANPD/LGPD).</p>
+                    <dl class="steps-guide">
+                        <dt>Verificação de Integridade de Dados</dt>
+                        <dd>Auditar as bases de dados para garantir que não houve alteração maliciosa (ex: inserção de registros falsos ou alteração de privilégios).</dd>
+                        <dt>Restauração</dt>
+                        <dd>Restaurar dados a partir de backups íntegros e testados.</dd>
+                        <dt>Comunicação e Notificação Regulatória</dt>
+                        <dd>Formalizar as notificações para a ANPD e para os titulares dos dados, caso a análise de impacto tenha indicado risco aos direitos dos cidadãos.</dd>
+                    </dl>
                 </div>
             </div>
         </div>
 
         <div id="fase5" class="content-card">
-            <h2 style="color: var(--nist-post)">FASE 5: PÓS-INCIDENTE</h2>
+            <h2 style="color: var(--nist-post)">PÓS-INCIDENTE</h2>
             <div class="img-container"><img src="posincidente.jpg"></div>
             <button class="btn-details" onclick="toggleDetails('det5')">ORIENTAÇÕES TÉCNICAS ↓</button>
             <div id="det5" class="extra-info">
                 <div class="info-section">
                     <h3>Melhoria Contínua</h3>
-                    <p>Documentação de lições aprendidas e atualização de políticas.</p>
+                    <dl class="steps-guide">
+                        <dt>Relatórios</dt>
+                        <dd>Documentar a cronologia, causa raiz e ações tomadas no sistema oficial de incidentes.</dd>
+                        <dt>Atualização de Controles e Treinamento</dt>
+                        <dd>Ajustar regras do SIEM/IPS e promover treinamentos de conscientização com base no vetor real que causou o incidente.</dd>
+                        <dt>Lições Aprendidas</dt>
+                        <dd>Revisar políticas de DLP e controles de acesso para prevenir reincidência.</dd>
+                    </dl>
                 </div>
             </div>
         </div>
